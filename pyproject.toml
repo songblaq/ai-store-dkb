@@ -5,7 +5,7 @@ description = "AI ecosystem research and collection store powered by DKB"
 requires-python = ">=3.12"
 license = {text = "MIT"}
 dependencies = [
-    "dkb-runtime",
+    "dkb-runtime @ git+https://github.com/songblaq/dkb-runtime.git@master",
 ]
 
 [project.optional-dependencies]
