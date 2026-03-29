@@ -15,7 +15,10 @@
       {"origin_uri": "https://github.com/garrytan/gstack", "provenance_hint": "community", "label": "gstack"}
     ],
     "codex": [
-      {"origin_uri": "https://github.com/VoltAgent/awesome-codex-subagents", "provenance_hint": "community", "label": "Awesome Codex Subagents"}
+      {"origin_uri": "https://github.com/VoltAgent/awesome-codex-subagents", "provenance_hint": "community", "label": "Awesome Codex Subagents"},
+      {"origin_uri": "https://github.com/ComposioHQ/awesome-codex-skills", "provenance_hint": "community", "label": "Awesome Codex Skills"},
+      {"origin_uri": "https://github.com/KarelDO/awesome-codex", "provenance_hint": "community", "label": "Awesome Codex"},
+      {"origin_uri": "https://github.com/hashgraph-online/awesome-codex-plugins", "provenance_hint": "community", "label": "Awesome Codex Plugins"}
     ],
     "agent-skills-community": [
       {"origin_uri": "https://github.com/VoltAgent/awesome-agent-skills", "provenance_hint": "community", "label": "Awesome Agent Skills"},
@@ -23,7 +26,45 @@
     ],
     "mcp": [
       {"origin_uri": "https://github.com/modelcontextprotocol/servers", "provenance_hint": "official", "label": "MCP Official Servers"},
-      {"origin_uri": "https://github.com/punkpeye/awesome-mcp-servers", "provenance_hint": "community", "label": "Awesome MCP Servers"}
+      {"origin_uri": "https://github.com/punkpeye/awesome-mcp-servers", "provenance_hint": "community", "label": "Awesome MCP Servers (punkpeye)"},
+      {"origin_uri": "https://github.com/appcypher/awesome-mcp-servers", "provenance_hint": "community", "label": "Awesome MCP Servers (appcypher)"},
+      {"origin_uri": "https://github.com/chatmcp/mcpso", "provenance_hint": "community", "label": "MCP Directory (mcpso)"}
+    ],
+    "clawhub": [
+      {"origin_uri": "https://github.com/openclaw/clawhub", "provenance_hint": "official", "label": "OpenClaw ClawHub"},
+      {"origin_uri": "https://github.com/openclaw/skills", "provenance_hint": "official", "label": "OpenClaw Skills Archive"},
+      {"origin_uri": "https://github.com/LeoYeAI/openclaw-master-skills", "provenance_hint": "community", "label": "OpenClaw Master Skills (curated)"}
+    ],
+    "cursor-rules": [
+      {"origin_uri": "https://github.com/sanjeed5/awesome-cursor-rules-mdc", "provenance_hint": "community", "label": "Awesome Cursor Rules (.mdc)"},
+      {"origin_uri": "https://github.com/flyeric0212/cursor-rules", "provenance_hint": "community", "label": "Cursor Rules Collection"},
+      {"origin_uri": "https://github.com/araguaci/cursor-skills", "provenance_hint": "community", "label": "Cursor Skills"},
+      {"origin_uri": "https://github.com/chrisboden/cursor-skills", "provenance_hint": "community", "label": "Cursor Skills (chrisboden)"}
+    ],
+    "awesome-collections": [
+      {"origin_uri": "https://github.com/libukai/awesome-agent-skills", "provenance_hint": "community", "label": "Awesome Agent Skills (libukai)"},
+      {"origin_uri": "https://github.com/heilcheng/awesome-agent-skills", "provenance_hint": "community", "label": "Awesome Agent Skills (heilcheng)"},
+      {"origin_uri": "https://github.com/rohitg00/awesome-claude-code-toolkit", "provenance_hint": "community", "label": "Awesome Claude Code Toolkit"},
+      {"origin_uri": "https://github.com/ccplugins/awesome-claude-code-plugins", "provenance_hint": "community", "label": "Awesome Claude Code Plugins"},
+      {"origin_uri": "https://github.com/rahulvrane/awesome-claude-agents", "provenance_hint": "community", "label": "Awesome Claude Agents"}
+    ],
+    "llm-tools": [
+      {"origin_uri": "https://github.com/Hannibal046/Awesome-LLM", "provenance_hint": "community", "label": "Awesome LLM"},
+      {"origin_uri": "https://github.com/xlite-dev/Awesome-LLM-Inference", "provenance_hint": "community", "label": "Awesome LLM Inference"},
+      {"origin_uri": "https://github.com/tensorchord/Awesome-LLMOps", "provenance_hint": "community", "label": "Awesome LLMOps"}
+    ],
+    "prompts": [
+      {"origin_uri": "https://github.com/ai-boost/awesome-prompts", "provenance_hint": "community", "label": "Awesome Prompts"},
+      {"origin_uri": "https://github.com/instructa/ai-prompts", "provenance_hint": "community", "label": "Instructa AI Prompts"},
+      {"origin_uri": "https://github.com/google-labs-code/jules-awesome-list", "provenance_hint": "official", "label": "Jules Awesome Prompts"}
+    ],
+    "skills-platforms": [
+      {"origin_uri": "https://github.com/inference-sh/skills", "provenance_hint": "official", "label": "inference.sh Agent Skills"},
+      {"origin_uri": "https://github.com/shareAI-lab/shareAI-skills", "provenance_hint": "community", "label": "shareAI Skills"},
+      {"origin_uri": "https://github.com/wasp-lang/open-saas", "provenance_hint": "community", "label": "Open SaaS (AGENTS.md & skills)"}
+    ],
+    "oh-my-tools": [
+      {"origin_uri": "https://github.com/TechDufus/oh-my-claude", "provenance_hint": "community", "label": "oh-my-claude"}
     ]
   }
 }
