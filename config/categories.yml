@@ -1,0 +1,37 @@
+version: "0.1.0"
+
+categories:
+  agent-skills-official:
+    label: "Official Agent Skills"
+    description: "Skills from major platform vendors (Anthropic, Microsoft, Google, etc.)"
+    trust_default: "reviewing"
+
+  claude-code:
+    label: "Claude Code Extensions"
+    description: "Plugins, skills, subagents, and hooks for Claude Code"
+    trust_default: "unknown"
+
+  codex:
+    label: "Codex Extensions"
+    description: "Subagents and tools for OpenAI Codex"
+    trust_default: "unknown"
+
+  agent-skills-community:
+    label: "Community Agent Skills"
+    description: "Community-curated agent skills and awesome lists"
+    trust_default: "unknown"
+
+  mcp:
+    label: "MCP Servers"
+    description: "Model Context Protocol servers and tools"
+    trust_default: "unknown"
+
+  llm-tools:
+    label: "LLM Tools & Frameworks"
+    description: "vLLM, Ollama, and other LLM serving/inference tools"
+    trust_default: "unknown"
+
+  ai-frameworks:
+    label: "AI Agent Frameworks"
+    description: "Agent orchestration frameworks and libraries"
+    trust_default: "unknown"

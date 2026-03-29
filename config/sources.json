@@ -1,0 +1,29 @@
+{
+  "version": "0.1.0",
+  "categories": {
+    "agent-skills-official": [
+      {"origin_uri": "https://github.com/anthropics/skills", "provenance_hint": "official", "label": "Anthropic Official Skills"},
+      {"origin_uri": "https://github.com/block/agent-skills", "provenance_hint": "official", "label": "Block Agent Skills"},
+      {"origin_uri": "https://github.com/microsoft/skills", "provenance_hint": "official", "label": "Microsoft Skills"},
+      {"origin_uri": "https://github.com/vercel-labs/agent-skills", "provenance_hint": "official", "label": "Vercel Agent Skills"},
+      {"origin_uri": "https://github.com/google-gemini/gemini-skills", "provenance_hint": "official", "label": "Google Gemini Skills"}
+    ],
+    "claude-code": [
+      {"origin_uri": "https://github.com/hesreallyhim/awesome-claude-code", "provenance_hint": "community", "label": "Awesome Claude Code"},
+      {"origin_uri": "https://github.com/VoltAgent/awesome-claude-code-subagents", "provenance_hint": "community", "label": "Awesome Claude Code Subagents"},
+      {"origin_uri": "https://github.com/Yeachan-Heo/oh-my-claudecode", "provenance_hint": "community", "label": "oh-my-claudecode"},
+      {"origin_uri": "https://github.com/garrytan/gstack", "provenance_hint": "community", "label": "gstack"}
+    ],
+    "codex": [
+      {"origin_uri": "https://github.com/VoltAgent/awesome-codex-subagents", "provenance_hint": "community", "label": "Awesome Codex Subagents"}
+    ],
+    "agent-skills-community": [
+      {"origin_uri": "https://github.com/VoltAgent/awesome-agent-skills", "provenance_hint": "community", "label": "Awesome Agent Skills"},
+      {"origin_uri": "https://github.com/msitarzewski/agency-agents", "provenance_hint": "community", "label": "Agency Agents"}
+    ],
+    "mcp": [
+      {"origin_uri": "https://github.com/modelcontextprotocol/servers", "provenance_hint": "official", "label": "MCP Official Servers"},
+      {"origin_uri": "https://github.com/punkpeye/awesome-mcp-servers", "provenance_hint": "community", "label": "Awesome MCP Servers"}
+    ]
+  }
+}
