@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 
 import pytest
@@ -12,9 +13,11 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def _load_run_pipeline():
     path = ROOT / "scripts" / "run_pipeline.py"
-    spec = importlib.util.spec_from_file_location("run_pipeline", path)
+    name = "run_pipeline_test_mod"
+    spec = importlib.util.spec_from_file_location(name, path)
     assert spec and spec.loader
     mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
     spec.loader.exec_module(mod)
     return mod
 

@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "description": "Minimal sources for scripts/validate_e2e.py (issues #10–#12). Issue #10 uses anthropics/skills; github.com/anthropic/claude-code-skills is not a public repository.",
+  "categories": {
+    "agent-skills-official": [
+      {
+        "origin_uri": "https://github.com/anthropics/skills",
+        "provenance_hint": "official",
+        "label": "Anthropic public skills (E2E #10)"
+      }
+    ],
+    "claude-code": [
+      {
+        "origin_uri": "https://github.com/hesreallyhim/awesome-claude-code",
+        "provenance_hint": "community",
+        "label": "Awesome Claude Code (E2E #11)"
+      }
+    ],
+    "mcp": [
+      {
+        "origin_uri": "https://github.com/modelcontextprotocol/servers",
+        "provenance_hint": "official",
+        "label": "MCP official servers (E2E #12)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "model_key": "dg-v0-1",
+  "version": "0.1.0",
+  "description": "Directive Graph default dimension model for DKB v0.1",
+  "score_range": {
+    "min": 0.0,
+    "max": 1.0
+  },
+  "confidence_range": {
+    "min": 0.0,
+    "max": 1.0
+  },
+  "groups": [
+    {
+      "name": "form",
+      "dimensions": [
+        "skillness",
+        "agentness",
+        "workflowness",
+        "commandness",
+        "pluginness"
+      ]
+    },
+    {
+      "name": "function",
+      "dimensions": [
+        "planning",
+        "review",
+        "coding",
+        "research",
+        "ops",
+        "writing",
+        "content",
+        "orchestration"
+      ]
+    },
+    {
+      "name": "execution",
+      "dimensions": [
+        "atomicity",
+        "autonomy",
+        "multi_stepness",
+        "tool_dependence",
+        "composability",
+        "reusability"
+      ]
+    },
+    {
+      "name": "governance",
+      "dimensions": [
+        "officialness",
+        "legal_clarity",
+        "maintenance_health",
+        "install_verifiability",
+        "trustworthiness"
+      ]
+    },
+    {
+      "name": "adoption",
+      "dimensions": [
+        "star_signal",
+        "fork_signal",
+        "mention_signal",
+        "install_signal",
+        "freshness"
+      ]
+    },
+    {
+      "name": "clarity",
+      "dimensions": [
+        "naming_clarity",
+        "description_clarity",
+        "io_clarity",
+        "example_coverage",
+        "overlap_ambiguity_inverse"
+      ]
+    }
+  ],
+  "role_views": {
+    "skill_score": {
+      "from_groups": [
+        "form",
+        "function",
+        "execution",
+        "clarity"
+      ],
+      "notes": "높은 skillness, reusability, composability, description clarity를 선호"
+    },
+    "agent_score": {
+      "from_groups": [
+        "form",
+        "function",
+        "execution",
+        "governance"
+      ],
+      "notes": "높은 agentness, autonomy, orchestration 성향을 선호"
+    },
+    "workflow_score": {
+      "from_groups": [
+        "form",
+        "function",
+        "execution",
+        "clarity"
+      ],
+      "notes": "높은 workflowness, multi_stepness, io clarity를 선호"
+    },
+    "command_score": {
+      "from_groups": [
+        "form",
+        "execution",
+        "clarity"
+      ],
+      "notes": "높은 commandness, atomicity, naming clarity를 선호"
+    },
+    "plugin_score": {
+      "from_groups": [
+        "form",
+        "execution",
+        "governance"
+      ],
+      "notes": "높은 pluginness, tool dependence, install verifiability를 선호"
+    }
+  },
+  "explainability": {
+    "required": true,
+    "fields": [
+      "explanation",
+      "features",
+      "confidence"
+    ]
+  }
+}

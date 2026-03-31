@@ -5,178 +5,19 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
-import re
 import sys
 from pathlib import Path
 from typing import Any
 
-# Heuristic keyword buckets (lowercase matching)
-SKILL_HINTS = re.compile(
-    r"\b(skill|skills|agent|mcp|plugin|plugins|claude|cursor|codex|gemini|subagent|"
-    r"prompt|directive|awesome|rules?|workflow)\b",
-    re.I,
-)
-WORKFLOW_HINTS = re.compile(
-    r"\b(workflow|automation|ci|cd|pipeline|orchestrat|playbook|runbook|process)\b",
-    re.I,
-)
-TOOL_HINTS = re.compile(
-    r"\b(tool|tools|mcp|api|cli|sdk|server|servers|integration|connector)\b",
-    re.I,
-)
-CODING_README = re.compile(
-    r"\b(install|npm|pip|pnpm|yarn|cargo|go install|clone|docker|compose|build|"
-    r"typescript|python|rust|```)\b",
-    re.I,
-)
-REVIEW_README = re.compile(
-    r"\b(review|pr|pull request|lint|test|coverage|ci|codecov|eslint|ruff)\b",
-    re.I,
-)
-PLANNING_README = re.compile(
-    r"\b(plan|roadmap|architecture|design|rfc|todo|backlog|milestone|strategy)\b",
-    re.I,
-)
+from dkb_runtime.services.scoring import _clamp01, _score_dimension
 
-TRUST_ORGS = frozenset(
-    {
-        "anthropics",
-        "microsoft",
-        "google",
-        "google-gemini",
-        "google-labs-code",
-        "vercel-labs",
-        "modelcontextprotocol",
-        "openclaw",
-        "github",
-    }
-)
-
-PERMISSIVE_LICENSES = frozenset(
-    {
-        "MIT",
-        "Apache-2.0",
-        "BSD-2-Clause",
-        "BSD-3-Clause",
-        "ISC",
-        "Unlicense",
-        "0BSD",
-        "CC0-1.0",
-    }
-)
-COPYLEFT_LICENSES = frozenset({"GPL-3.0", "GPL-2.0", "AGPL-3.0", "LGPL-3.0", "LGPL-2.1", "MPL-2.0"})
+_ROOT = Path(__file__).resolve().parent.parent
+_DIMENSION_MODEL_PATH = _ROOT / "config" / "dimension_model_v0_1.json"
 
 
-def clamp01(x: float) -> float:
-    return max(0.0, min(1.0, x))
-
-
-def score_topics_description(description: str, topics: list[str]) -> tuple[float, float, float]:
-    text = f"{description} {' '.join(topics)}".lower()
-    skill = 0.25
-    if SKILL_HINTS.search(text):
-        skill += 0.35
-    if "awesome" in text or "list" in text:
-        skill += 0.15
-    if len(topics) >= 5:
-        skill += 0.15
-    wf = 0.2
-    if WORKFLOW_HINTS.search(text):
-        wf += 0.45
-    if "automation" in text or "workflow" in topics:
-        wf += 0.2
-    tool = 0.2
-    if TOOL_HINTS.search(text):
-        tool += 0.45
-    if any(t in ("mcp", "cli", "api") for t in topics):
-        tool += 0.2
-    return clamp01(skill), clamp01(wf), clamp01(tool)
-
-
-def score_readme_function(readme: str) -> tuple[float, float, float]:
-    if not readme.strip():
-        return 0.15, 0.1, 0.1
-    coding = 0.2
-    if CODING_README.search(readme):
-        coding += 0.35
-    if readme.count("```") >= 2:
-        coding += 0.25
-    if len(readme) > 800:
-        coding += 0.1
-    review = 0.15
-    if REVIEW_README.search(readme):
-        review += 0.45
-    plan = 0.15
-    if PLANNING_README.search(readme):
-        plan += 0.45
-    if len(readme) > 1500:
-        plan += 0.1
-    return clamp01(coding), clamp01(review), clamp01(plan)
-
-
-def score_installability(license_spdx: str | None, language: str | None) -> float:
-    base = 0.35
-    if language:
-        base += 0.25
-    if not license_spdx or license_spdx in ("NOASSERTION", "NONE"):
-        return clamp01(base * 0.6)
-    if license_spdx in PERMISSIVE_LICENSES:
-        base += 0.35
-    elif license_spdx in COPYLEFT_LICENSES:
-        base += 0.2
-    else:
-        base += 0.15
-    return clamp01(base)
-
-
-def score_trust(stars: int, owner_login: str | None, owner_type: str | None, provenance: str | None) -> float:
-    s = 0.25
-    if stars >= 5000:
-        s += 0.35
-    elif stars >= 1000:
-        s += 0.28
-    elif stars >= 200:
-        s += 0.18
-    elif stars >= 50:
-        s += 0.1
-    ol = (owner_login or "").lower()
-    if ol in TRUST_ORGS:
-        s += 0.2
-    if owner_type == "Organization":
-        s += 0.08
-    if provenance == "official":
-        s += 0.12
-    return clamp01(s)
-
-
-def score_popularity(stars: int, forks: int) -> float:
-    # Log-scaled blend
-    if stars <= 0 and forks <= 0:
-        return 0.12
-    ls = math.log1p(stars)
-    lf = math.log1p(forks)
-    combined = (ls * 0.75 + lf * 0.25) / math.log1p(20000)
-    return clamp01(combined)
-
-
-def score_description_clarity(description: str) -> float:
-    d = (description or "").strip()
-    n = len(d)
-    if n < 20:
-        return 0.15
-    if n < 40:
-        return 0.35
-    score = 0.45
-    if 60 <= n <= 400:
-        score += 0.3
-    elif n > 400:
-        score += 0.15
-    if any(c in d for c in ".:,-"):
-        score += 0.1
-    if d[0].isupper():
-        score += 0.05
-    return clamp01(score)
+def load_dimension_groups(config_path: Path) -> list[tuple[str, list[str]]]:
+    data = json.loads(config_path.read_text(encoding="utf-8"))
+    return [(g["name"], list(g["dimensions"])) for g in data["groups"]]
 
 
 def overall_average(scores: dict[str, dict[str, float]]) -> float:
@@ -196,13 +37,54 @@ def verdict_from_scores(avg: float, trust: float, installability: float) -> str:
     return "neutral"
 
 
+def build_scoring_context(
+    data: dict[str, Any], repo: dict[str, Any]
+) -> tuple[str, str, str]:
+    desc = repo.get("description") or ""
+    topics = list(repo.get("topics") or [])
+    readme = data.get("readme_excerpt") or ""
+    full = repo.get("full_name") or ""
+    name = repo.get("name") or ""
+    stars = int(repo.get("stargazers_count") or 0)
+    forks = int(repo.get("forks_count") or 0)
+    lic = repo.get("license_spdx") or ""
+
+    parts = [full, name, desc, " ".join(topics), readme]
+    parts.append(f"github repository stargazers_count={stars} forks_count={forks}")
+    if lic and str(lic).upper() not in ("NOASSERTION", "NONE", ""):
+        parts.append(f"license {lic}")
+
+    content = "\n".join(p for p in parts if p)
+    path_blob = f"{full.lower()} {' '.join(topics).lower()}"
+    type_blob = (data.get("category") or "").lower()
+    return content, path_blob, type_blob
+
+
+def score_directive_from_context(
+    content: str,
+    path_blob: str,
+    type_blob: str,
+    dimension_config: Path,
+) -> dict[str, dict[str, float]]:
+    groups = load_dimension_groups(dimension_config)
+    scores: dict[str, dict[str, float]] = {}
+    for group_name, dims in groups:
+        scores[group_name] = {}
+        for dim_key in dims:
+            s, _conf, _ex = _score_dimension(
+                group_name, dim_key, content, path_blob, type_blob
+            )
+            scores[group_name][dim_key] = _clamp01(float(s))
+    return scores
+
+
 def load_collected_files(root: Path) -> list[Path]:
     if not root.is_dir():
         return []
     return sorted(p for p in root.rglob("*.json") if p.is_file())
 
 
-def directive_from_file(path: Path) -> dict[str, Any] | None:
+def directive_from_file(path: Path, dimension_config: Path) -> dict[str, Any] | None:
     try:
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
@@ -212,35 +94,26 @@ def directive_from_file(path: Path) -> dict[str, Any] | None:
         return None
     repo = data["repo"]
     desc = repo.get("description") or ""
-    topics = list(repo.get("topics") or [])
     readme = data.get("readme_excerpt") or ""
-    stars = int(repo.get("stargazers_count") or 0)
-    forks = int(repo.get("forks_count") or 0)
-    lic = repo.get("license_spdx")
-    lang = repo.get("language")
-    owner_login = repo.get("owner_login")
-    owner_type = repo.get("owner_type")
-    provenance = data.get("provenance_hint")
 
-    sk, wf, tl = score_topics_description(desc, topics)
-    cd, rv, pl = score_readme_function(readme)
-    inst = score_installability(lic, lang)
-    trust = score_trust(stars, owner_login, owner_type, provenance)
-    pop = score_popularity(stars, forks)
-    clar = score_description_clarity(desc)
+    if not dimension_config.is_file():
+        print(f"ERROR: dimension model missing: {dimension_config}", file=sys.stderr)
+        return None
 
-    scores: dict[str, dict[str, float]] = {
-        "form": {"skillness": sk, "workflowness": wf, "toolness": tl},
-        "function": {"coding": cd, "review": rv, "planning": pl},
-        "execution": {"installability": inst},
-        "governance": {"trust": trust},
-        "adoption": {"popularity": pop},
-        "clarity": {"description_clarity": clar},
-    }
+    content, path_blob, type_blob = build_scoring_context(data, repo)
+    scores = score_directive_from_context(
+        content, path_blob, type_blob, dimension_config
+    )
+
+    gov = scores.get("governance") or {}
+    trust = float(gov.get("trustworthiness", 0.0))
+    inst = float(gov.get("install_verifiability", 0.0))
     avg = overall_average(scores)
     verdict = verdict_from_scores(avg, trust, inst)
 
     directive_id = f"{data.get('category')}/{repo.get('full_name', path.stem)}"
+
+    provenance = data.get("provenance_hint")
 
     return {
         "directive_id": directive_id,
@@ -277,11 +150,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=root / "storage" / "processed" / "directives.json",
         help="Output directives JSON path",
     )
+    p.add_argument(
+        "--dimension-model",
+        type=Path,
+        default=root / "config" / "dimension_model_v0_1.json",
+        help="Path to dimension_model_v0_1.json (34 DG dimensions)",
+    )
     return p.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    dim_cfg = args.dimension_model
     files = load_collected_files(args.input)
     if not files:
         print(f"No JSON files under {args.input}", file=sys.stderr)
@@ -290,7 +170,7 @@ def main(argv: list[str] | None = None) -> int:
     directives: list[dict[str, Any]] = []
     skipped = 0
     for p in files:
-        d = directive_from_file(p)
+        d = directive_from_file(p, dim_cfg)
         if d:
             directives.append(d)
         else:
@@ -298,14 +178,17 @@ def main(argv: list[str] | None = None) -> int:
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     payload = {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "directive_count": len(directives),
+        "dimension_model_path": str(dim_cfg),
         "directives": directives,
     }
     with open(args.output, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
 
-    print(f"Processed {len(directives)} directives (skipped {skipped} files) -> {args.output}")
+    print(
+        f"Processed {len(directives)} directives (skipped {skipped} files) -> {args.output}"
+    )
     return 0
 
 

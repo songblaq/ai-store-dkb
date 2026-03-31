@@ -45,7 +45,9 @@ def iter_category_sources(
     return out
 
 
-def _default_provenance_for_category(sources_config: dict[str, Any], category_name: str) -> str | None:
+def _default_provenance_for_category(
+    sources_config: dict[str, Any], category_name: str
+) -> str | None:
     if not isinstance(sources_config.get("categories"), list):
         return None
     for c in sources_config["categories"]:
@@ -95,7 +97,10 @@ def main(argv: list[str] | None = None) -> None:
         pairs = [(c, s) for c, s in pairs if c in wanted]
         unknown = wanted - {c for c, _ in pairs}
         if unknown:
-            print(f"Warning: no sources found for categories: {', '.join(sorted(unknown))}", file=sys.stderr)
+            print(
+                f"Warning: no sources found for categories: {', '.join(sorted(unknown))}",
+                file=sys.stderr,
+            )
 
     grouped = _group_by_category(pairs)
     n_categories = len(grouped)
@@ -128,14 +133,20 @@ def main(argv: list[str] | None = None) -> None:
                     n_skipped += 1
                     continue
 
-                default_provenance = _default_provenance_for_category(sources_config, category_name)
+                default_provenance = _default_provenance_for_category(
+                    sources_config, category_name
+                )
                 provenance_hint = source_def.get("provenance_hint", default_provenance)
 
-                existing = db.scalars(select(Source).where(Source.origin_uri == origin_uri)).first()
+                existing = db.scalars(
+                    select(Source).where(Source.origin_uri == origin_uri)
+                ).first()
 
                 if args.dry_run:
                     if existing:
-                        print(f"    [DRY-RUN] would collect existing source (id={existing.source_id})")
+                        print(
+                            f"    [DRY-RUN] would collect existing source (id={existing.source_id})"
+                        )
                         n_dry_existing += 1
                     else:
                         print(

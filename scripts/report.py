@@ -51,7 +51,10 @@ def origin_uri_to_category(sources_config: dict[str, Any]) -> dict[str, str]:
 
 def _latest_verdict_subquery():
     return (
-        select(Verdict.directive_id.label("directive_id"), func.max(Verdict.evaluated_at).label("mx"))
+        select(
+            Verdict.directive_id.label("directive_id"),
+            func.max(Verdict.evaluated_at).label("mx"),
+        )
         .group_by(Verdict.directive_id)
         .subquery()
     )
@@ -95,12 +98,24 @@ def build_report(db, sources_config_path: Path) -> dict[str, Any]:
     v_alias = Verdict
     trust_stmt = (
         select(v_alias.trust_state, func.count())
-        .join(mx, and_(v_alias.directive_id == mx.c.directive_id, v_alias.evaluated_at == mx.c.mx))
+        .join(
+            mx,
+            and_(
+                v_alias.directive_id == mx.c.directive_id,
+                v_alias.evaluated_at == mx.c.mx,
+            ),
+        )
         .group_by(v_alias.trust_state)
     )
     rec_stmt = (
         select(v_alias.recommendation_state, func.count())
-        .join(mx, and_(v_alias.directive_id == mx.c.directive_id, v_alias.evaluated_at == mx.c.mx))
+        .join(
+            mx,
+            and_(
+                v_alias.directive_id == mx.c.directive_id,
+                v_alias.evaluated_at == mx.c.mx,
+            ),
+        )
         .group_by(v_alias.recommendation_state)
     )
     verdict_trust = {row[0]: int(row[1]) for row in db.execute(trust_stmt).all()}
@@ -122,12 +137,15 @@ def build_report(db, sources_config_path: Path) -> dict[str, Any]:
         .limit(10)
     )
     top_directives = [
-        {"preferred_name": row[0], "avg_score": float(row[1])} for row in db.execute(top_stmt).all()
+        {"preferred_name": row[0], "avg_score": float(row[1])}
+        for row in db.execute(top_stmt).all()
     ]
 
     return {
         "source_count_by_category": dict(sorted(by_category.items())),
-        "directive_count_by_declared_type": dict(sorted(by_declared_type.items(), key=lambda x: (-x[1], x[0]))),
+        "directive_count_by_declared_type": dict(
+            sorted(by_declared_type.items(), key=lambda x: (-x[1], x[0]))
+        ),
         "score_distribution_by_dimension_group": score_by_group,
         "verdict_distribution": {
             "trust_state": dict(sorted(verdict_trust.items())),

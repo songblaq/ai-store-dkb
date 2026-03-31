@@ -27,12 +27,18 @@ def git_sha(repo_root: Path) -> str:
     return "unknown"
 
 
-def flatten_scores_for_catalog(scores: dict[str, dict[str, float]]) -> dict[str, dict[str, Any]]:
+def flatten_scores_for_catalog(
+    scores: dict[str, dict[str, float]],
+) -> dict[str, dict[str, Any]]:
     """Catalog entries: dimension_key -> {score, dimension_group}."""
     out: dict[str, dict[str, Any]] = {}
     for group, dims in scores.items():
         for key, val in dims.items():
-            out[key] = {"score": round(float(val), 4), "dimension_group": group, "confidence": 0.7}
+            out[key] = {
+                "score": round(float(val), 4),
+                "dimension_group": group,
+                "confidence": 0.7,
+            }
     return out
 
 
@@ -85,7 +91,10 @@ def main(argv: list[str] | None = None) -> int:
             "scores_by_group": scores_nested,
             "verdict": {
                 "recommendation": d.get("verdict"),
-                "trust": "high" if (scores_nested.get("governance") or {}).get("trust", 0) >= 0.65 else "medium",
+                "trust": "high"
+                if (scores_nested.get("governance") or {}).get("trustworthiness", 0)
+                >= 0.65
+                else "medium",
             },
             "metadata": d.get("metadata"),
         }
@@ -105,7 +114,9 @@ def main(argv: list[str] | None = None) -> int:
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(catalog, f, indent=2)
 
-    print(f"Wrote {len(catalog_directives)} directives to {out_path} (build_id={build_id[:8]}...)")
+    print(
+        f"Wrote {len(catalog_directives)} directives to {out_path} (build_id={build_id[:8]}...)"
+    )
     return 0
 
 

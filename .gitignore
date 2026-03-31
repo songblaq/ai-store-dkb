@@ -13,6 +13,9 @@ venv/
 # Storage (local data)
 storage/
 
+# E2E collected payloads (regenerate with scripts/validate_e2e.py)
+data/validation/e2e_collected/
+
 # OS
 .DS_Store
 Thumbs.db
