@@ -1,3 +1,5 @@
+![CI](https://github.com/songblaq/ai-store-dkb/actions/workflows/ci.yml/badge.svg)
+
 # ai-store-dkb
 
 AI 생태계 전체를 리서치·수집하는 **DKB 스토어 인스턴스**.
