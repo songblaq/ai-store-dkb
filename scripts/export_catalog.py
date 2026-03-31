@@ -38,7 +38,9 @@ def main() -> None:
 
         for d in directives:
             scores = db.scalars(
-                select(DimensionScore).where(DimensionScore.directive_id == d.directive_id)
+                select(DimensionScore).where(
+                    DimensionScore.directive_id == d.directive_id
+                )
             ).all()
             verdict = db.scalars(
                 select(Verdict)
@@ -52,7 +54,8 @@ def main() -> None:
                 "normalized_summary": d.normalized_summary,
                 "status": d.status,
                 "scores": {
-                    s.dimension_key: {"score": s.score, "confidence": s.confidence} for s in scores
+                    s.dimension_key: {"score": s.score, "confidence": s.confidence}
+                    for s in scores
                 },
                 "verdict": {
                     "provenance": verdict.provenance_state,

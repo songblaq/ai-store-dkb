@@ -26,7 +26,9 @@ def load_sources_config(path: Path) -> dict[str, Any]:
         return json.load(f)
 
 
-def iter_category_sources(sources_config: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
+def iter_category_sources(
+    sources_config: dict[str, Any],
+) -> list[tuple[str, dict[str, Any]]]:
     out: list[tuple[str, dict[str, Any]]] = []
     categories = sources_config.get("categories", {})
     if isinstance(categories, dict):
@@ -68,7 +70,10 @@ def run_gh_api(path: str) -> tuple[int, dict[str, Any] | None, str]:
             timeout=120,
         )
     except FileNotFoundError:
-        print("ERROR: gh CLI not found. Install GitHub CLI and run `gh auth login`.", file=sys.stderr)
+        print(
+            "ERROR: gh CLI not found. Install GitHub CLI and run `gh auth login`.",
+            file=sys.stderr,
+        )
         return 127, None, ""
     except subprocess.TimeoutExpired:
         return 124, None, "timeout"
@@ -93,7 +98,9 @@ def fetch_readme_excerpt(owner: str, repo: str, max_chars: int = 500) -> str:
     if not b64:
         return ""
     try:
-        raw = base64.b64decode(b64.encode("ascii"), validate=False).decode("utf-8", errors="replace")
+        raw = base64.b64decode(b64.encode("ascii"), validate=False).decode(
+            "utf-8", errors="replace"
+        )
     except (ValueError, OSError):
         return ""
     raw = raw.strip()
@@ -102,12 +109,16 @@ def fetch_readme_excerpt(owner: str, repo: str, max_chars: int = 500) -> str:
     return raw[:max_chars]
 
 
-def fetch_repo_metadata(owner: str, repo: str) -> tuple[dict[str, Any] | None, str | None]:
+def fetch_repo_metadata(
+    owner: str, repo: str
+) -> tuple[dict[str, Any] | None, str | None]:
     api_path = f"repos/{owner}/{repo}"
     code, data, stderr = run_gh_api(api_path)
     if code != 0:
         hint = stderr[:200] if stderr else ""
-        err = f"gh api failed (exit {code}) for {api_path}" + (f": {hint}" if hint else "")
+        err = f"gh api failed (exit {code}) for {api_path}" + (
+            f": {hint}" if hint else ""
+        )
         return None, err
     return data, None
 
@@ -172,9 +183,13 @@ def main(argv: list[str] | None = None) -> int:
     cat_list = sorted(by_cat.items(), key=lambda x: x[0])
 
     for cat_idx, (category_name, source_list) in enumerate(cat_list, start=1):
-        limited = source_list[: args.limit] if args.limit and args.limit > 0 else source_list
+        limited = (
+            source_list[: args.limit] if args.limit and args.limit > 0 else source_list
+        )
         n = len(limited)
-        print(f"\n=== Category [{cat_idx}/{len(cat_list)}]: {category_name} ({n} sources) ===")
+        print(
+            f"\n=== Category [{cat_idx}/{len(cat_list)}]: {category_name} ({n} sources) ==="
+        )
         cat_dir = out_root / category_name
         cat_dir.mkdir(parents=True, exist_ok=True)
 

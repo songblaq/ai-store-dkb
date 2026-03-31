@@ -99,7 +99,9 @@ def print_summary(s: dict[str, Any]) -> None:
 
     od = s.get("overall_score_distribution") or {}
     print("\n=== Overall score distribution ===")
-    print(f"  min={od.get('min')} max={od.get('max')} avg={od.get('avg')} (n={od.get('count')})")
+    print(
+        f"  min={od.get('min')} max={od.get('max')} avg={od.get('avg')} (n={od.get('count')})"
+    )
 
     print("\n=== Score distribution by dimension ===")
     for dim, stats in sorted((s.get("score_distribution_by_dimension") or {}).items()):

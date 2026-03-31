@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-03-31T07:11:23.686367+00:00",
+  "dimension_count_expected": 34,
+  "overall_ok": true,
+  "processed_path": "/Users/user/_/workspace/lb-lab/ai-store-dkb/data/validation/processed/directives.json",
+  "collected_dir": "/Users/user/_/workspace/lb-lab/ai-store-dkb/data/validation/e2e_collected",
+  "notes": [
+    "Issue #10: target anthropics/skills (official Anthropic public skills). The path anthropic/claude-code-skills is not a public GitHub repository as of validation.",
+    "Issue #11: hesreallyhim/awesome-claude-code",
+    "Issue #12: modelcontextprotocol/servers"
+  ],
+  "repos": [
+    {
+      "full_name": "anthropics/skills",
+      "github_issue": 10,
+      "ok": true,
+      "errors": [],
+      "overall_score": 0.284,
+      "verdict": "caution"
+    },
+    {
+      "full_name": "hesreallyhim/awesome-claude-code",
+      "github_issue": 11,
+      "ok": true,
+      "errors": [],
+      "overall_score": 0.3643,
+      "verdict": "caution"
+    },
+    {
+      "full_name": "modelcontextprotocol/servers",
+      "github_issue": 12,
+      "ok": true,
+      "errors": [],
+      "overall_score": 0.2363,
+      "verdict": "caution"
+    }
+  ]
+}

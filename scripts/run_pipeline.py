@@ -13,7 +13,12 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 
 from dkb_runtime.core.config import get_settings
-from dkb_runtime.models import CanonicalDirective, DimensionModel, RawDirective, SourceSnapshot
+from dkb_runtime.models import (
+    CanonicalDirective,
+    DimensionModel,
+    RawDirective,
+    SourceSnapshot,
+)
 from dkb_runtime.services.canonicalizer import CanonicalResult, canonicalize
 from dkb_runtime.services.extractor import extract_directives
 from dkb_runtime.services.scoring import score_directive
@@ -69,10 +74,16 @@ def _raw_ids_for_captured_snapshots(db) -> list[UUID]:
 
 def _load_active_canonicals(db) -> list[CanonicalResult]:
     rows = db.scalars(
-        select(CanonicalDirective).where(CanonicalDirective.status == "active").order_by(CanonicalDirective.preferred_name)
+        select(CanonicalDirective)
+        .where(CanonicalDirective.status == "active")
+        .order_by(CanonicalDirective.preferred_name)
     ).all()
     return [
-        CanonicalResult(directive_id=r.directive_id, preferred_name=r.preferred_name, mapped_raw_count=0)
+        CanonicalResult(
+            directive_id=r.directive_id,
+            preferred_name=r.preferred_name,
+            mapped_raw_count=0,
+        )
         for r in rows
     ]
 
@@ -95,7 +106,10 @@ def main(argv: list[str] | None = None) -> None:
         ).first()
         if "score" in stages or "verdict" in stages:
             if not dimension_model:
-                print("ERROR: No active dimension model found. Run seed first.", file=sys.stderr)
+                print(
+                    "ERROR: No active dimension model found. Run seed first.",
+                    file=sys.stderr,
+                )
                 return
 
         print(f"Stages: {' -> '.join(stages)}\n")
@@ -111,20 +125,32 @@ def main(argv: list[str] | None = None) -> None:
             n_snap = len(snapshots)
             print(f"Found {n_snap} captured snapshots to extract from")
             for i, snapshot in enumerate(snapshots, start=1):
-                print(f"  Extracting snapshot [{i}/{n_snap}] {snapshot.snapshot_id} ...")
+                print(
+                    f"  Extracting snapshot [{i}/{n_snap}] {snapshot.snapshot_id} ..."
+                )
                 results = extract_directives(db, snapshot.snapshot_id)
                 all_raw_ids.extend(r.raw_directive_id for r in results)
-                print(f"    extracted {len(results)} raw directives (running total raw: {len(all_raw_ids)})")
+                print(
+                    f"    extracted {len(results)} raw directives (running total raw: {len(all_raw_ids)})"
+                )
             elapsed = time.perf_counter() - t0
             stage_stats.append(
-                StageStats("extract", elapsed, f"{n_snap} snapshots, {len(all_raw_ids)} raw directive rows")
+                StageStats(
+                    "extract",
+                    elapsed,
+                    f"{n_snap} snapshots, {len(all_raw_ids)} raw directive rows",
+                )
             )
             print(f"  (extract done in {elapsed:.2f}s)\n")
 
         if "canonicalize" in stages:
             t0 = time.perf_counter()
             print("=== Stage: canonicalize ===")
-            raw_ids = list(all_raw_ids) if all_raw_ids else _raw_ids_for_captured_snapshots(db)
+            raw_ids = (
+                list(all_raw_ids)
+                if all_raw_ids
+                else _raw_ids_for_captured_snapshots(db)
+            )
             if not all_raw_ids:
                 all_raw_ids = raw_ids
             print(f"Canonicalizing {len(raw_ids)} raw directives ...")
@@ -132,14 +158,20 @@ def main(argv: list[str] | None = None) -> None:
             print(f"  created/updated {len(canonical_results)} canonical directives")
             elapsed = time.perf_counter() - t0
             stage_stats.append(
-                StageStats("canonicalize", elapsed, f"{len(canonical_results)} canonical directives")
+                StageStats(
+                    "canonicalize",
+                    elapsed,
+                    f"{len(canonical_results)} canonical directives",
+                )
             )
             print(f"  (canonicalize done in {elapsed:.2f}s)\n")
 
         if "score" in stages:
             t0 = time.perf_counter()
             print("=== Stage: score ===")
-            targets = canonical_results if canonical_results else _load_active_canonicals(db)
+            targets = (
+                canonical_results if canonical_results else _load_active_canonicals(db)
+            )
             n = len(targets)
             print(f"Scoring {n} canonical directives ...")
             for i, cr in enumerate(targets, start=1):
@@ -147,7 +179,9 @@ def main(argv: list[str] | None = None) -> None:
                     print(f"\n  --- Scoring: {cr.preferred_name} ---")
                 elif i == 1 or i == n or i % 25 == 0:
                     print(f"  scoring [{i}/{n}] ...")
-                scores = score_directive(db, cr.directive_id, dimension_model.dimension_model_id)
+                scores = score_directive(
+                    db, cr.directive_id, dimension_model.dimension_model_id
+                )
                 if args.verbose:
                     print(f"    scored {len(scores)} dimensions")
             elapsed = time.perf_counter() - t0
@@ -157,7 +191,9 @@ def main(argv: list[str] | None = None) -> None:
         if "verdict" in stages:
             t0 = time.perf_counter()
             print("=== Stage: verdict ===")
-            targets = canonical_results if canonical_results else _load_active_canonicals(db)
+            targets = (
+                canonical_results if canonical_results else _load_active_canonicals(db)
+            )
             n = len(targets)
             print(f"Evaluating verdicts for {n} canonical directives ...")
             for i, cr in enumerate(targets, start=1):
@@ -167,7 +203,9 @@ def main(argv: list[str] | None = None) -> None:
                     print(f"  verdict [{i}/{n}] ...")
                 verdict = evaluate_directive(db, cr.directive_id)
                 if args.verbose:
-                    print(f"    Verdict: trust={verdict.trust_state}, rec={verdict.recommendation_state}")
+                    print(
+                        f"    Verdict: trust={verdict.trust_state}, rec={verdict.recommendation_state}"
+                    )
             elapsed = time.perf_counter() - t0
             stage_stats.append(StageStats("verdict", elapsed, f"{n} directives"))
             print(f"  (verdict done in {elapsed:.2f}s)\n")

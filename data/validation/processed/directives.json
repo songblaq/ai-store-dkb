@@ -1,0 +1,262 @@
+{
+  "version": "0.2.0",
+  "directive_count": 3,
+  "dimension_model_path": "/Users/user/_/workspace/lb-lab/ai-store-dkb/config/dimension_model_v0_1.json",
+  "directives": [
+    {
+      "directive_id": "agent-skills-official/anthropics/skills",
+      "preferred_name": "anthropics/skills",
+      "category": "agent-skills-official",
+      "source_label": "Anthropic public skills (E2E #10)",
+      "provenance_hint": "official",
+      "origin_uri": "https://github.com/anthropics/skills",
+      "collected_path": "/Users/user/_/workspace/lb-lab/ai-store-dkb/data/validation/e2e_collected/agent-skills-official/anthropics__skills.json",
+      "normalized_summary": "Public repository for Agent Skills",
+      "metadata": {
+        "repo": {
+          "full_name": "anthropics/skills",
+          "name": "skills",
+          "description": "Public repository for Agent Skills",
+          "stargazers_count": 106957,
+          "forks_count": 11837,
+          "language": "Python",
+          "license_spdx": null,
+          "topics": [
+            "agent-skills"
+          ],
+          "updated_at": "2026-03-31T07:10:45Z",
+          "owner_login": "anthropics",
+          "owner_type": "Organization",
+          "html_url": "https://github.com/anthropics/skills"
+        },
+        "readme_excerpt": "> **Note:** This repository contains Anthropic's implementation of skills for Claude. For information about the Agent Skills standard, see [agentskills.io](http://agentskills.io).\n\n# Skills\nSkills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks. Skills teach Claude how to complete specific tasks in a repeatable way, whether that's creating documents with your company's brand guidelines, analyzing data using your organi",
+        "fetched_at": "2026-03-31T07:11:18.741234+00:00"
+      },
+      "scores": {
+        "form": {
+          "skillness": 0.75,
+          "agentness": 0.7166666666666667,
+          "workflowness": 0.15,
+          "commandness": 0.0,
+          "pluginness": 0.0
+        },
+        "function": {
+          "planning": 0.0,
+          "review": 0.0,
+          "coding": 0.5555555555555556,
+          "research": 0.0,
+          "ops": 0.0,
+          "writing": 0.6666666666666666,
+          "content": 0.0,
+          "orchestration": 0.0
+        },
+        "execution": {
+          "atomicity": 1.0,
+          "autonomy": 1.0,
+          "multi_stepness": 0.0,
+          "tool_dependence": 0.47619047619047616,
+          "composability": 0.0,
+          "reusability": 0.41666666666666663
+        },
+        "governance": {
+          "officialness": 0.9523809523809523,
+          "legal_clarity": 0.0,
+          "maintenance_health": 0.0,
+          "install_verifiability": 0.0,
+          "trustworthiness": 0.31746031746031744
+        },
+        "adoption": {
+          "star_signal": 0.4166666666666667,
+          "fork_signal": 0.4166666666666667,
+          "mention_signal": 0.0,
+          "install_signal": 0.0,
+          "freshness": 0.0
+        },
+        "clarity": {
+          "naming_clarity": 0.425,
+          "description_clarity": 0.395625,
+          "io_clarity": 0.0,
+          "example_coverage": 0.0,
+          "overlap_ambiguity_inverse": 1.0
+        }
+      },
+      "overall_score": 0.284,
+      "verdict": "caution"
+    },
+    {
+      "directive_id": "claude-code/hesreallyhim/awesome-claude-code",
+      "preferred_name": "hesreallyhim/awesome-claude-code",
+      "category": "claude-code",
+      "source_label": "Awesome Claude Code (E2E #11)",
+      "provenance_hint": "community",
+      "origin_uri": "https://github.com/hesreallyhim/awesome-claude-code",
+      "collected_path": "/Users/user/_/workspace/lb-lab/ai-store-dkb/data/validation/e2e_collected/claude-code/hesreallyhim__awesome-claude-code.json",
+      "normalized_summary": "A curated list of awesome skills, hooks, slash-commands, agent orchestrators, applications, and plugins for Claude Code by Anthropic",
+      "metadata": {
+        "repo": {
+          "full_name": "hesreallyhim/awesome-claude-code",
+          "name": "awesome-claude-code",
+          "description": "A curated list of awesome skills, hooks, slash-commands, agent orchestrators, applications, and plugins for Claude Code by Anthropic",
+          "stargazers_count": 34703,
+          "forks_count": 2523,
+          "language": "Python",
+          "license_spdx": "NOASSERTION",
+          "topics": [
+            "agent-skills",
+            "agentic-code",
+            "agentic-coding",
+            "ai-workflow-optimization",
+            "ai-workflows",
+            "anthropic",
+            "anthropic-claude",
+            "awesome",
+            "awesome-list",
+            "awesome-lists",
+            "awesome-resources",
+            "claude",
+            "claude-code",
+            "coding-agent",
+            "coding-agents",
+            "coding-assistant",
+            "coding-assistants",
+            "llm"
+          ],
+          "updated_at": "2026-03-31T07:11:07Z",
+          "owner_login": "hesreallyhim",
+          "owner_type": "User",
+          "html_url": "https://github.com/hesreallyhim/awesome-claude-code"
+        },
+        "readme_excerpt": "<!-- GENERATED FILE: do not edit directly -->\n<h3 align=\"center\">Pick Your Style:</h3>\n<p align=\"center\">\n<a href=\"./\"><img src=\"assets/badge-style-awesome.svg\" alt=\"Awesome\" height=\"28\" style=\"border: 2px solid #cc3366; border-radius: 4px;\"></a>\n<a href=\"README_ALTERNATIVES/README_EXTRA.md\"><img src=\"assets/badge-style-extra.svg\" alt=\"Extra\" height=\"28\"></a>\n<a href=\"README_ALTERNATIVES/README_CLASSIC.md\"><img src=\"assets/badge-style-classic.svg\" alt=\"Classic\" height=\"28\"></a>\n<a href=\"README_A",
+        "fetched_at": "2026-03-31T07:11:20.478919+00:00"
+      },
+      "scores": {
+        "form": {
+          "skillness": 0.45,
+          "agentness": 0.3666666666666667,
+          "workflowness": 0.7999999999999999,
+          "commandness": 0.47619047619047616,
+          "pluginness": 1.0
+        },
+        "function": {
+          "planning": 0.0,
+          "review": 0.0,
+          "coding": 0.5555555555555556,
+          "research": 0.0,
+          "ops": 0.0,
+          "writing": 0.0,
+          "content": 0.6666666666666666,
+          "orchestration": 0.0
+        },
+        "execution": {
+          "atomicity": 1.0,
+          "autonomy": 1.0,
+          "multi_stepness": 0.6666666666666666,
+          "tool_dependence": 0.0,
+          "composability": 0.0,
+          "reusability": 1.0
+        },
+        "governance": {
+          "officialness": 0.9523809523809523,
+          "legal_clarity": 0.0,
+          "maintenance_health": 0.0,
+          "install_verifiability": 0.0,
+          "trustworthiness": 0.31746031746031744
+        },
+        "adoption": {
+          "star_signal": 0.4166666666666667,
+          "fork_signal": 0.4166666666666667,
+          "mention_signal": 0.0,
+          "install_signal": 0.0,
+          "freshness": 0.0
+        },
+        "clarity": {
+          "naming_clarity": 0.8,
+          "description_clarity": 0.5,
+          "io_clarity": 0.0,
+          "example_coverage": 0.0,
+          "overlap_ambiguity_inverse": 1.0
+        }
+      },
+      "overall_score": 0.3643,
+      "verdict": "caution"
+    },
+    {
+      "directive_id": "mcp/modelcontextprotocol/servers",
+      "preferred_name": "modelcontextprotocol/servers",
+      "category": "mcp",
+      "source_label": "MCP official servers (E2E #12)",
+      "provenance_hint": "official",
+      "origin_uri": "https://github.com/modelcontextprotocol/servers",
+      "collected_path": "/Users/user/_/workspace/lb-lab/ai-store-dkb/data/validation/e2e_collected/mcp/modelcontextprotocol__servers.json",
+      "normalized_summary": "Model Context Protocol Servers",
+      "metadata": {
+        "repo": {
+          "full_name": "modelcontextprotocol/servers",
+          "name": "servers",
+          "description": "Model Context Protocol Servers",
+          "stargazers_count": 82573,
+          "forks_count": 10133,
+          "language": "TypeScript",
+          "license_spdx": "NOASSERTION",
+          "topics": [],
+          "updated_at": "2026-03-31T06:58:46Z",
+          "owner_login": "modelcontextprotocol",
+          "owner_type": "Organization",
+          "html_url": "https://github.com/modelcontextprotocol/servers"
+        },
+        "readme_excerpt": "# Model Context Protocol servers\n\nThis repository is a collection of *reference implementations* for the [Model Context Protocol](https://modelcontextprotocol.io/) (MCP), as well as references to community-built servers and additional resources.\n\n> [!IMPORTANT]\n> If you are looking for a list of MCP servers, you can browse published servers on [the MCP Registry](https://registry.modelcontextprotocol.io/). The repository served by this README is dedicated to housing just the small number of refer",
+        "fetched_at": "2026-03-31T07:11:22.840614+00:00"
+      },
+      "scores": {
+        "form": {
+          "skillness": 0.2,
+          "agentness": 0.2,
+          "workflowness": 0.15,
+          "commandness": 0.0,
+          "pluginness": 0.0
+        },
+        "function": {
+          "planning": 0.0,
+          "review": 0.0,
+          "coding": 0.5555555555555556,
+          "research": 0.0,
+          "ops": 0.0,
+          "writing": 0.0,
+          "content": 0.0,
+          "orchestration": 0.0
+        },
+        "execution": {
+          "atomicity": 1.0,
+          "autonomy": 1.0,
+          "multi_stepness": 0.0,
+          "tool_dependence": 0.9523809523809523,
+          "composability": 0.0,
+          "reusability": 0.41666666666666663
+        },
+        "governance": {
+          "officialness": 0.47619047619047616,
+          "legal_clarity": 0.0,
+          "maintenance_health": 0.0,
+          "install_verifiability": 0.0,
+          "trustworthiness": 0.15873015873015872
+        },
+        "adoption": {
+          "star_signal": 0.4166666666666667,
+          "fork_signal": 0.4166666666666667,
+          "mention_signal": 0.0,
+          "install_signal": 0.0,
+          "freshness": 0.0
+        },
+        "clarity": {
+          "naming_clarity": 0.7,
+          "description_clarity": 0.391875,
+          "io_clarity": 0.0,
+          "example_coverage": 0.0,
+          "overlap_ambiguity_inverse": 1.0
+        }
+      },
+      "overall_score": 0.2363,
+      "verdict": "caution"
+    }
+  ]
+}
