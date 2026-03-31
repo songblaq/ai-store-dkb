@@ -13,7 +13,7 @@ categories:
 
   codex:
     label: "Codex Extensions"
-    description: "Subagents and tools for OpenAI Codex"
+    description: "Subagents, skills, and plugins for OpenAI Codex"
     trust_default: "unknown"
 
   agent-skills-community:
@@ -23,12 +23,42 @@ categories:
 
   mcp:
     label: "MCP Servers"
-    description: "Model Context Protocol servers and tools"
+    description: "Model Context Protocol servers, directories, and curated lists"
+    trust_default: "unknown"
+
+  clawhub:
+    label: "ClawHub / OpenClaw"
+    description: "OpenClaw ClawHub directory, skill archives, and curated OpenClaw skills"
+    trust_default: "unknown"
+
+  cursor-rules:
+    label: "Cursor Rules & Skills"
+    description: "Cursor IDE .mdc rules, rules collections, and Cursor-oriented skills"
+    trust_default: "unknown"
+
+  awesome-collections:
+    label: "Awesome Aggregators"
+    description: "Cross-tool awesome lists (agent skills, Claude Code toolkits, plugins, agents)"
     trust_default: "unknown"
 
   llm-tools:
-    label: "LLM Tools & Frameworks"
-    description: "vLLM, Ollama, and other LLM serving/inference tools"
+    label: "LLM Tools & Lists"
+    description: "Curated lists covering LLMs, inference, serving, and LLMOps"
+    trust_default: "unknown"
+
+  prompts:
+    label: "Prompts & Prompt Engineering"
+    description: "Prompt libraries, Jules prompts, and IDE-oriented prompt packs"
+    trust_default: "unknown"
+
+  skills-platforms:
+    label: "Skills Platforms"
+    description: "Vendor or project skill registries (inference.sh, shareAI, SaaS templates with AGENTS.md)"
+    trust_default: "unknown"
+
+  oh-my-tools:
+    label: "oh-my-* Tooling"
+    description: "Oh-my style helper repos for Claude and similar agents"
     trust_default: "unknown"
 
   ai-frameworks:
